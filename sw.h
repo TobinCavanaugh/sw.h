@@ -36,7 +36,7 @@
 #define PRINT_US_FORMAT "%.0fus\n"
 #define PRINT_MS_FORMAT "%.4fms\n"
 #define PRINT_S_FORMAT "%.4fs\n"
-#define PRINT_MIN_FORMAT "%.2fmin\n"
+#define PRINT_MIN_FORMAT "%.2fmins\n"
 
 //Include stdio.h if we are enabling print functions
 #ifdef SW_PRINT_FUNCTIONS
@@ -57,14 +57,14 @@ double sw_start_us()
 
 /// Stop the microsecond timer
 /// @param prev The start time from `double sw_start_us()`
-/// @return The time between stop and start
+/// @return The time between stop and start in microseconds
 double sw_stop_us(double prev)
 {
     return (sw_start_us() - prev);
 }
 
 #ifdef SW_PRINT_FUNCTIONS
-/// Stops the stopwatch and prints the microsecond with a newline.
+/// Prints the elapsed seconds since prev in microseconds
 /// @param prev The start time from `double sw_start_us()`
 void sw_print_us(double prev)
 {
@@ -84,15 +84,15 @@ double sw_start_ms()
 
 /// Stop the millisecond timer
 /// @param prev The start time from `double sw_start_ms()`
-/// @return The time between stop and start
+/// @return The time between stop and start in milliseconds
 double sw_stop_ms(double prev)
 {
     return (sw_start_ms() - prev);
 }
 
 #ifdef SW_PRINT_FUNCTIONS
-/// Stops the stopwatch and prints the millisecond with a newline.
-/// @param prev The start time from `double sw_start_us()`
+/// Prints the elapsed seconds since prev in miliseconds
+/// @param prev The start time from `double sw_start_ms()`
 void sw_print_ms(double prev)
 {
     printf(PRINT_MS_FORMAT, sw_stop_ms(prev));
@@ -111,7 +111,7 @@ double sw_start_s()
 
 /// Stop the second timer
 /// @param prev The start time from `double sw_start_s()`
-/// @return The time between stop and start
+/// @return The time between stop and start in seconds
 double sw_stop_s(double prev)
 {
     return (sw_start_s() - prev);
@@ -119,8 +119,8 @@ double sw_stop_s(double prev)
 
 
 #ifdef SW_PRINT_FUNCTIONS
-/// Stops the stopwatch and prints the second with a newline.
-/// @param prev The start time from `double sw_start_us()`
+/// Prints the elapsed seconds since prev in seconds
+/// @param prev The start time from `double sw_start_s()`
 void sw_print_s(double prev)
 {
     printf(PRINT_S_FORMAT, sw_stop_s(prev));
@@ -133,24 +133,23 @@ void sw_print_s(double prev)
 
 #ifdef SW_MINUTE_FUNCTIONS
 /// Start the second timer, returns the start time.
-/// @return The current timeofday in seconds, use this as the prev arg for `sw_stop_s`
+/// @return The current timeofday in seconds, use this as the prev arg for `sw_stop_min`
 double sw_start_min()
 {
     return sw_start_s() / 60;
 }
 
 /// Stop the second timer
-/// @param prev The start time from `double sw_start_s()`
-/// @return The time between stop and start
+/// @param prev The start time from `double sw_start_min()`
+/// @return The time between stop and start in minutes
 double sw_stop_min(double prev)
 {
     return (sw_start_min() - prev);
 }
 
-
 #ifdef SW_PRINT_FUNCTIONS
-/// Stops the stopwatch and prints the second with a newline.
-/// @param prev The start time from `double sw_start_us()`
+/// Prints the elapsed seconds since prev in mins
+/// @param prev The start time from `double sw_start_min()`
 void sw_print_min(double prev)
 {
     printf(PRINT_MIN_FORMAT, sw_stop_min(prev));
