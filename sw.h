@@ -26,22 +26,22 @@
 //=====================
 //MACROS
 
-//Should print functions be enabled?
+//Should print functions be enabled? (Comment to disable)
 #define SW_PRINT_FUNCTIONS
 
-//Should the minute functions be enabled?
+//Should the minute functions be enabled? (Uncomment to enable)
 // #define SW_MINUTE_FUNCTIONS
 
 //Print format, we use doubles, so make sure to use a %f
-#define PRINT_US_FORMAT "%.0f"
-#define PRINT_MS_FORMAT "%.4f"
-#define PRINT_S_FORMAT "%.4f"
-#define PRINT_MIN_FORMAT "%.2f"
+#define PRINT_US_FORMAT "%.0fus\n"
+#define PRINT_MS_FORMAT "%.4fms\n"
+#define PRINT_S_FORMAT "%.4fs\n"
+#define PRINT_MIN_FORMAT "%.2fmin\n"
 
 //Include stdio.h if we are enabling print functions
 #ifdef SW_PRINT_FUNCTIONS
 #include <stdio.h>
-#endif
+#endif //SW_PRINT_FUNCTIONS
 
 //=====================
 //MICROSECOND FUNCTIONS
@@ -68,7 +68,7 @@ double sw_stop_us(double prev)
 /// @param prev The start time from `double sw_start_us()`
 void sw_print_us(double prev)
 {
-    printf(PRINT_US_FORMAT "us\n", sw_stop_us(prev));
+    printf(PRINT_US_FORMAT, sw_stop_us(prev));
 }
 #endif //SW_PRINT_FUNCTIONS
 
@@ -95,7 +95,7 @@ double sw_stop_ms(double prev)
 /// @param prev The start time from `double sw_start_us()`
 void sw_print_ms(double prev)
 {
-    printf(PRINT_MS_FORMAT "ms\n", sw_stop_ms(prev));
+    printf(PRINT_MS_FORMAT, sw_stop_ms(prev));
 }
 #endif //SW_PRINT_FUNCTIONS
 
@@ -123,7 +123,7 @@ double sw_stop_s(double prev)
 /// @param prev The start time from `double sw_start_us()`
 void sw_print_s(double prev)
 {
-    printf(PRINT_S_FORMAT "s\n", sw_stop_s(prev));
+    printf(PRINT_S_FORMAT, sw_stop_s(prev));
 }
 #endif //SW_PRINT_FUNCTIONS
 
@@ -153,7 +153,7 @@ double sw_stop_min(double prev)
 /// @param prev The start time from `double sw_start_us()`
 void sw_print_min(double prev)
 {
-    printf(PRINT_MIN_FORMAT "min\n", sw_stop_min(prev));
+    printf(PRINT_MIN_FORMAT, sw_stop_min(prev));
 }
 #endif //SW_PRINT_FUNCTIONS
 
