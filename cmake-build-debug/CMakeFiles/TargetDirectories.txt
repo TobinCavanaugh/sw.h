@@ -1,0 +1,3 @@
+C:/Users/tobinc/CLionProjects/StopWatch/cmake-build-debug/CMakeFiles/StopWatch.dir
+C:/Users/tobinc/CLionProjects/StopWatch/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/tobinc/CLionProjects/StopWatch/cmake-build-debug/CMakeFiles/rebuild_cache.dir

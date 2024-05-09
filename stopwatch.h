@@ -1,0 +1,166 @@
+#ifndef STOPWATCH_H
+#define STOPWATCH_H
+
+#include <time.h>
+
+//=====================
+//HOW TO USE:
+/*
+    //Printing milliseconds example:
+    double prev = sw_start_ms();
+    //...
+    sw_print_ms(prev);
+
+
+    //Getting microseconds example:
+    double start = sw_start_us();
+
+
+    //Getting elapsed seconds example:
+    double start = sw_start_s();
+    //...
+    double elapsed = sw_stop_s(start);
+*/
+
+
+//=====================
+//MACROS
+
+//Should print functions be enabled?
+#define SW_PRINT_FUNCTIONS
+
+//Should the minute functions be enabled?
+// #define SW_MINUTE_FUNCTIONS
+
+//Print format, we use doubles, so make sure to use a %f
+#define PRINT_US_FORMAT "%.0f"
+#define PRINT_MS_FORMAT "%.4f"
+#define PRINT_S_FORMAT "%.4f"
+#define PRINT_MIN_FORMAT "%.2f"
+
+//Include stdio.h if we are enabling print functions
+#ifdef SW_PRINT_FUNCTIONS
+#include <stdio.h>
+#endif
+
+//=====================
+//MICROSECOND FUNCTIONS
+
+/// Start the microsecond timer, returns the start time
+/// @return The current timeofday in microseconds, use this as the prev arg for `sw_stop_us()`
+double sw_start_us()
+{
+    struct timespec a;
+    clock_gettime(CLOCK_MONOTONIC, &a);
+    return a.tv_nsec / 1000;
+}
+
+/// Stop the microsecond timer
+/// @param prev The start time from `double sw_start_us()`
+/// @return The time between stop and start
+double sw_stop_us(double prev)
+{
+    return (sw_start_us() - prev);
+}
+
+#ifdef SW_PRINT_FUNCTIONS
+/// Stops the stopwatch and prints the microsecond with a newline.
+/// @param prev The start time from `double sw_start_us()`
+void sw_print_us(double prev)
+{
+    printf(PRINT_US_FORMAT "us\n", sw_stop_us(prev));
+}
+#endif //SW_PRINT_FUNCTIONS
+
+//=====================
+//MILLISECOND FUNCTIONS
+
+/// Start the millisecond timer, returns the start time.
+/// @return The current timeofday in milliseconds, use this as the prev arg for `sw_stop_ms()'
+double sw_start_ms()
+{
+    return sw_start_us() / 1000.0;
+}
+
+/// Stop the millisecond timer
+/// @param prev The start time from `double sw_start_ms()`
+/// @return The time between stop and start
+double sw_stop_ms(double prev)
+{
+    return (sw_start_ms() - prev);
+}
+
+#ifdef SW_PRINT_FUNCTIONS
+/// Stops the stopwatch and prints the millisecond with a newline.
+/// @param prev The start time from `double sw_start_us()`
+void sw_print_ms(double prev)
+{
+    printf(PRINT_MS_FORMAT "ms\n", sw_stop_ms(prev));
+}
+#endif //SW_PRINT_FUNCTIONS
+
+//=====================
+//SECOND FUNCTIONS
+
+/// Start the second timer, returns the start time.
+/// @return The current timeofday in seconds, use this as the prev arg for `sw_stop_s`
+double sw_start_s()
+{
+    return sw_start_ms() / 1000;
+}
+
+/// Stop the second timer
+/// @param prev The start time from `double sw_start_s()`
+/// @return The time between stop and start
+double sw_stop_s(double prev)
+{
+    return (sw_start_s() - prev);
+}
+
+
+#ifdef SW_PRINT_FUNCTIONS
+/// Stops the stopwatch and prints the second with a newline.
+/// @param prev The start time from `double sw_start_us()`
+void sw_print_s(double prev)
+{
+    printf(PRINT_S_FORMAT "s\n", sw_stop_s(prev));
+}
+#endif //SW_PRINT_FUNCTIONS
+
+
+//=====================
+//MINUTE FUNCTIONS
+
+#ifdef SW_MINUTE_FUNCTIONS
+/// Start the second timer, returns the start time.
+/// @return The current timeofday in seconds, use this as the prev arg for `sw_stop_s`
+double sw_start_min()
+{
+    return sw_start_s() / 60;
+}
+
+/// Stop the second timer
+/// @param prev The start time from `double sw_start_s()`
+/// @return The time between stop and start
+double sw_stop_min(double prev)
+{
+    return (sw_start_min() - prev);
+}
+
+
+#ifdef SW_PRINT_FUNCTIONS
+/// Stops the stopwatch and prints the second with a newline.
+/// @param prev The start time from `double sw_start_us()`
+void sw_print_min(double prev)
+{
+    printf(PRINT_MIN_FORMAT "min\n", sw_stop_min(prev));
+}
+#endif //SW_PRINT_FUNCTIONS
+
+#endif //SW_MINUTE_FUNCTIONS
+
+#endif //STOPWATCH_H
+
+//
+// Created by TobinC on 5/9/2024.
+//
