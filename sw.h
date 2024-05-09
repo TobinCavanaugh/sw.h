@@ -32,6 +32,9 @@
 //Should the minute functions be enabled? (Uncomment to enable)
 // #define SW_MINUTE_FUNCTIONS
 
+//Should memory functions be enabled (Comment to disable)
+#define SW_MEMORY
+
 //Print format, we use doubles, so make sure to use a %f
 #define PRINT_US_FORMAT "%.0fus\n"
 #define PRINT_MS_FORMAT "%.4fms\n"
@@ -42,6 +45,16 @@
 #ifdef SW_PRINT_FUNCTIONS
 #include <stdio.h>
 #endif //SW_PRINT_FUNCTIONS
+
+
+#ifdef SW_MEMORY
+#ifdef __WIN32
+#include <windows.h>
+#include <psapi.h>
+#endif //__WIN32
+
+//TODO Linux & unix support
+#endif //SW_MEMORY
 
 //=====================
 //MICROSECOND FUNCTIONS
@@ -157,6 +170,23 @@ void sw_print_min(double prev)
 #endif //SW_PRINT_FUNCTIONS
 
 #endif //SW_MINUTE_FUNCTIONS
+
+double sw_memory_size_b()
+{
+    HANDLE hproc = GetCurrentProcess();
+    PROCESS_MEMORY_COUNTERS_EX pmc;
+    if (GetProcessMemoryInfo(hproc, &pmc, sizeof(pmc)))
+    {
+        //In bytes
+        return pmc.WorkingSetSize;
+    }
+    CloseHandle(hproc);
+}
+
+double sw_memory_size_mb()
+{
+    return sw_memory_size_b() / 1000.0;
+}
 
 #endif //STOPWATCH_H
 

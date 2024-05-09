@@ -2,6 +2,10 @@
 
 int main(void)
 {
+    // printf("%f", sw_memory_size_b());
+
+    return 1;
+
     //Testing elapsed microseconds
     {
         double prev = sw_start_us();
@@ -23,7 +27,6 @@ int main(void)
         //...
         sw_print_s(prev);
     }
-
 
     return 0;
 }
