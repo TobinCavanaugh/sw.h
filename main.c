@@ -1,4 +1,4 @@
-#include "stopwatch.h"
+#include "sw.h"
 
 int main(void)
 {
