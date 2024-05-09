@@ -3,7 +3,7 @@
 
 No more `time_t` or `timeval`. They have their place, but 99% of the time you want to time something, they just get in they way.
 
-
+### Example
 ```C
 #include "sw.h"
 
@@ -42,9 +42,7 @@ int main(void)
 ```
 
 
-<details>
-<summary><h3>Functions</h3></summary>
-
+### Functions
   ```C
 //=====================
 //MICROSECOND FUNCTIONS
@@ -94,5 +92,3 @@ double sw_stop_s(double prev);
 /// @param prev The start time from `double sw_start_s()`
 void sw_print_s(double prev);
 ```
-
-</details>
