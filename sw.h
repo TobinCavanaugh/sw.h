@@ -4,27 +4,7 @@
 #include <time.h>
 
 //=====================
-//HOW TO USE:
-/*
-    //Printing milliseconds example:
-    double prev = sw_start_ms();
-    //...
-    sw_print_ms(prev);
-
-
-    //Getting microseconds example:
-    double start = sw_start_us();
-
-
-    //Getting elapsed seconds example:
-    double start = sw_start_s();
-    //...
-    double elapsed = sw_stop_s(start);
-*/
-
-
-//=====================
-//MACROS
+//MACRO OPTIONS
 
 //Should print functions be enabled? (Comment to disable)
 #define SW_PRINT_FUNCTIONS
@@ -35,34 +15,40 @@
 //Should memory functions be enabled (Comment to disable)
 #define SW_MEMORY
 
-//Print format, we use doubles, so make sure to use a %f
+//Printing time format, we use doubles, so make sure to use a %f
 #define PRINT_US_FORMAT "%.0fus\n"
 #define PRINT_MS_FORMAT "%.4fms\n"
 #define PRINT_S_FORMAT "%.4fs\n"
 #define PRINT_MIN_FORMAT "%.2fmins\n"
 
+//Printing sizes format
 #define PRINT_B_FORMAT "%.0fb\n"
 #define PRINT_KB_FORMAT "%.2fkb\n"
 #define PRINT_MB_FORMAT "%.5fmb\n"
 #define PRINT_GB_FORMAT "%.5fgb\n"
+
+//MACRO BACKEND ======================================================================
 
 //Include stdio.h if we are enabling print functions
 #ifdef SW_PRINT_FUNCTIONS
 #include <stdio.h>
 #endif //SW_PRINT_FUNCTIONS
 
-
 #ifdef SW_MEMORY
 #ifdef __WIN32
+
 #include <windows.h>
 #include <psapi.h>
-#endif //__WIN32
 
-//TODO Linux & unix support
+#elif __linux__
+
+#include <sys/resource.h>
+
+#endif
+
 #endif //SW_MEMORY
 
-//=====================
-//MICROSECOND FUNCTIONS
+//MICROSECOND FUNCTIONS ======================================================================
 
 /// Start the microsecond timer, returns the start time
 /// @return The current timeofday in microseconds, use this as the prev arg for `sw_stop_us()`
@@ -90,8 +76,7 @@ inline void sw_print_us(double prev)
 }
 #endif //SW_PRINT_FUNCTIONS
 
-//=====================
-//MILLISECOND FUNCTIONS
+//MILLISECOND FUNCTIONS ======================================================================
 
 /// Start the millisecond timer, returns the start time.
 /// @return The current timeofday in milliseconds, use this as the prev arg for `sw_stop_ms()'
@@ -117,8 +102,7 @@ inline void sw_print_ms(double prev)
 }
 #endif //SW_PRINT_FUNCTIONS
 
-//=====================
-//SECOND FUNCTIONS
+//SECOND FUNCTIONS ======================================================================
 
 /// Start the second timer, returns the start time.
 /// @return The current timeofday in seconds, use this as the prev arg for `sw_stop_s`
@@ -146,8 +130,7 @@ inline void sw_print_s(double prev)
 #endif //SW_PRINT_FUNCTIONS
 
 
-//=====================
-//MINUTE FUNCTIONS
+//MINUTE FUNCTIONS ======================================================================
 
 #ifdef SW_MINUTE_FUNCTIONS
 /// Start the second timer, returns the start time.
@@ -176,6 +159,8 @@ inline void sw_print_min(double prev)
 
 #endif //SW_MINUTE_FUNCTIONS
 
+
+#ifdef SW_MEMORY
 /// Get the current memory usage of this application
 /// @return The size of memory in bytes
 inline double sw_memory_size_b()
@@ -192,7 +177,6 @@ inline double sw_memory_size_b()
     return -1;
 
 #elif __linux__
-    #include <sys/resource.h>
     struct rusage use;
     getrusage(RUSAGE_SELF, &use);
     return use.ru_maxrss * 1000.0;
@@ -219,7 +203,6 @@ inline void sw_memory_print_kb()
     printf(PRINT_KB_FORMAT, sw_memory_size_kb());
 }
 
-
 /// Get the current memory usage of this application
 /// @return The size of memory in megabytes
 inline double sw_memory_size_mb()
@@ -233,7 +216,6 @@ inline void sw_memory_print_mb()
 {
     printf(PRINT_MB_FORMAT, sw_memory_size_mb());
 }
-
 
 /// Get the current memory usage of this application
 /// @return The size of memory in gigabytes
@@ -270,6 +252,8 @@ inline void sw_memory_print_auto()
         printf(PRINT_GB_FORMAT, size / 1000.0 / 1000.0 / 1000.0);
     }
 }
+
+#endif SW_MEMORY
 
 #endif //STOPWATCH_H
 

@@ -1,4 +1,4 @@
-# SW : A simple C stopwatch for benchmarking
+# SW : Single C header file benchmarking
 
 #### Clarity rejects verbosity
 
