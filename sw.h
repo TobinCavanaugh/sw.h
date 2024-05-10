@@ -21,10 +21,10 @@
 #define PRINT_MIN_FORMAT "%.2fmins\n"
 
 //Printing sizes format
-#define PRINT_B_FORMAT "%.0fb\n"
-#define PRINT_KB_FORMAT "%.2fkb\n"
-#define PRINT_MB_FORMAT "%.5fmb\n"
-#define PRINT_GB_FORMAT "%.5fgb\n"
+#define PRINT_B_FORMAT "%.0fB\n"
+#define PRINT_KB_FORMAT "%.2fKB\n"
+#define PRINT_MB_FORMAT "%.5fMB\n"
+#define PRINT_GB_FORMAT "%.5fGB\n"
 
 //MACRO BACKEND ======================================================================
 
@@ -62,7 +62,7 @@ inline double sw_start_us()
 /// Stop the microsecond timer
 /// @param prev The start time from `inline double sw_start_us()`
 /// @return The time between stop and start in microseconds
-inline double sw_stop_us(double prev)
+inline double sw_stop_us(const double prev)
 {
     return (sw_start_us() - prev);
 }
@@ -70,7 +70,7 @@ inline double sw_stop_us(double prev)
 #ifdef SW_PRINT_FUNCTIONS
 /// Prints the elapsed seconds since prev in microseconds
 /// @param prev The start time from `inline double sw_start_us()`
-inline void sw_print_us(double prev)
+inline void sw_print_us(const double prev)
 {
     printf(PRINT_US_FORMAT, sw_stop_us(prev));
 }
@@ -88,7 +88,7 @@ inline double sw_start_ms()
 /// Stop the millisecond timer
 /// @param prev The start time from `inline double sw_start_ms()`
 /// @return The time between stop and start in milliseconds
-inline double sw_stop_ms(double prev)
+inline double sw_stop_ms(const double prev)
 {
     return (sw_start_ms() - prev);
 }
@@ -96,7 +96,7 @@ inline double sw_stop_ms(double prev)
 #ifdef SW_PRINT_FUNCTIONS
 /// Prints the elapsed seconds since prev in miliseconds
 /// @param prev The start time from `inline double sw_start_ms()`
-inline void sw_print_ms(double prev)
+inline void sw_print_ms(const double prev)
 {
     printf(PRINT_MS_FORMAT, sw_stop_ms(prev));
 }
@@ -114,7 +114,7 @@ inline double sw_start_s()
 /// Stop the second timer
 /// @param prev The start time from `inline double sw_start_s()`
 /// @return The time between stop and start in seconds
-inline double sw_stop_s(double prev)
+inline double sw_stop_s(const double prev)
 {
     return (sw_start_s() - prev);
 }
@@ -122,7 +122,7 @@ inline double sw_stop_s(double prev)
 #ifdef SW_PRINT_FUNCTIONS
 /// Prints the elapsed seconds since prev in seconds
 /// @param prev The start time from `inline double sw_start_s()`
-inline void sw_print_s(double prev)
+inline void sw_print_s(const double prev)
 {
     printf(PRINT_S_FORMAT, sw_stop_s(prev));
 }
@@ -142,7 +142,7 @@ inline double sw_start_min()
 /// Stop the second timer
 /// @param prev The start time from `inline double sw_start_min()`
 /// @return The time between stop and start in minutes
-inline double sw_stop_min(double prev)
+inline double sw_stop_min(const double prev)
 {
     return (sw_start_min() - prev);
 }
@@ -150,7 +150,7 @@ inline double sw_stop_min(double prev)
 #ifdef SW_PRINT_FUNCTIONS
 /// Prints the elapsed seconds since prev in mins
 /// @param prev The start time from `inline double sw_start_min()`
-inline void sw_print_min(double prev)
+inline void sw_print_min(const double prev)
 {
     printf(PRINT_MIN_FORMAT, sw_stop_min(prev));
 }
@@ -165,7 +165,7 @@ inline void sw_print_min(double prev)
 inline double sw_memory_size_b()
 {
 #ifdef __WIN32
-    HANDLE hproc = GetCurrentProcess();
+    const HANDLE hproc = GetCurrentProcess();
     PROCESS_MEMORY_COUNTERS_EX pmc;
     if (GetProcessMemoryInfo(hproc, (PPROCESS_MEMORY_COUNTERS)&pmc, sizeof(pmc)))
     {
@@ -232,7 +232,7 @@ inline void sw_memory_print_gb()
 /// i.e. doesnt print 1000 bytes as "1000b" but as "1mb"
 inline void sw_memory_print_auto()
 {
-    double size = sw_memory_size_b();
+    const double size = sw_memory_size_b();
     if (size < 1000)
     {
         printf(PRINT_B_FORMAT, size);
