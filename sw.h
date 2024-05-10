@@ -42,7 +42,7 @@
 #define PRINT_MIN_FORMAT "%.2fmins\n"
 
 #define PRINT_B_FORMAT "%.0fb\n"
-#define PRINT_KB_FORMAT "%.2fb\n"
+#define PRINT_KB_FORMAT "%.2fkb\n"
 #define PRINT_MB_FORMAT "%.5fmb\n"
 #define PRINT_GB_FORMAT "%.5fgb\n"
 
@@ -176,6 +176,8 @@ inline void sw_print_min(double prev)
 
 #endif //SW_MINUTE_FUNCTIONS
 
+/// Get the current memory usage of this application
+/// @return The size of memory in bytes
 inline double sw_memory_size_b()
 {
 #ifdef __WIN32
@@ -197,54 +199,69 @@ inline double sw_memory_size_b()
 #endif
 }
 
+/// Gets and prints the memory usage in bytes
 inline void sw_memory_print_b()
 {
     printf(PRINT_B_FORMAT, sw_memory_size_b());
 }
 
 
+/// Get the current memory usage of this application
+/// @return The size of memory in kilobytes
 inline double sw_memory_size_kb()
 {
     return sw_memory_size_b() / 1000.0;
 }
 
+/// Gets and prints the memory usage in kilobytes
 inline void sw_memory_print_kb()
 {
     printf(PRINT_KB_FORMAT, sw_memory_size_kb());
 }
 
+
+/// Get the current memory usage of this application
+/// @return The size of memory in megabytes
 inline double sw_memory_size_mb()
 {
     return sw_memory_size_kb() / 1000.0;
 }
 
+
+/// Gets and prints the memory usage in megabytes
 inline void sw_memory_print_mb()
 {
     printf(PRINT_MB_FORMAT, sw_memory_size_mb());
 }
 
+
+/// Get the current memory usage of this application
+/// @return The size of memory in gigabytes
 inline double sw_memory_size_gb()
 {
     return sw_memory_size_mb() / 1000.0;
 }
 
+/// Gets and prints the memory usage in gigabytes
 inline void sw_memory_print_gb()
 {
     printf(PRINT_GB_FORMAT, sw_memory_size_gb());
 }
 
+/// Prints the memory usage with the correct formatting in the ideal size.
+/// i.e. doesnt print 1000 bytes as "1000b" but as "1mb"
 inline void sw_memory_print_auto()
 {
     double size = sw_memory_size_b();
-    if (size <= 999)
+    if (size < 1000)
     {
         printf(PRINT_B_FORMAT, size);
     }
-    else if (size <= 999 * 1000)
+    else if (size < 1000 * 1000)
     {
         printf(PRINT_KB_FORMAT, size / 1000.0);
     }
-    else if (size <= 999 * 1000 * 1000)
+    else if (size < 1000 * 1000 * 1000)
     {
         printf(PRINT_MB_FORMAT, size / 1000.0 / 1000.0);
     }

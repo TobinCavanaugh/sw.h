@@ -1,9 +1,12 @@
 # SW : A simple C stopwatch for benchmarking
+
 #### Clarity rejects verbosity
 
-No more `time_t` or `timeval`. They have their place, but 99% of the time you want to time something, they just get in they way.
+No more `time_t` or `timeval`. They have their place, but 99% of the time you want to time something, they just get in
+they way.
 
 ### Example
+
 ```C
 #include "sw.h"
 
@@ -24,11 +27,25 @@ int main(void)
         printf("%fms elapsed!\n");
     }
 
-    //Testing elapsed seconds
+    //Testing elapsed second
     {
         double prev = sw_start_s();
         //...
         sw_print_s(prev);
+    }
+
+    {
+        sw_memory_print_auto();
+        sw_memory_print_auto();
+    }
+
+    {
+        double sizegb = sw_memory_size_gb();
+        printf("%.5fgb\n", sizegb);
+    }
+
+    {
+        sw_memory_print_kb();
     }
 
     return 0;
@@ -39,13 +56,16 @@ int main(void)
 0us
 0.000000ms elapsed!
 0.0000s
+2.96550mb
+2.96550mb
+0.00297gb
+2965.50kb
 ```
 
-
 ### Functions
-  ```C
-//===============================================================
-//MICROSECOND FUNCTIONS
+
+```C
+//MICROSECOND FUNCTIONS ======================================================================
 
 /// Start the microsecond timer, returns the start time
 /// @return The current timeofday in microseconds, use this as the prev arg for `sw_stop_us()`
@@ -59,9 +79,10 @@ double sw_stop_us(double prev);
 /// Prints the elapsed seconds since prev in microseconds
 /// @param prev The start time from `double sw_start_us()`
 void sw_print_us(double prev);
-  
-//===============================================================
-//MILLISECOND FUNCTIONS
+```
+
+```C
+//MILLISECOND FUNCTIONS ======================================================================
 
 /// Start the millisecond timer, returns the start time.
 /// @return The current timeofday in milliseconds, use this as the prev arg for `sw_stop_ms()'
@@ -75,9 +96,10 @@ double sw_stop_ms(double prev);
 /// Prints the elapsed seconds since prev in miliseconds
 /// @param prev The start time from `double sw_start_ms()`
 void sw_print_ms(double prev);
+```
 
-//===============================================================
-//SECOND FUNCTIONS
+```C
+//SECOND FUNCTIONS ======================================================================
 
 /// Start the second timer, returns the start time.
 /// @return The current timeofday in seconds, use this as the prev arg for `sw_stop_s`
@@ -91,4 +113,40 @@ double sw_stop_s(double prev);
 /// Prints the elapsed seconds since prev in seconds
 /// @param prev The start time from `double sw_start_s()`
 void sw_print_s(double prev);
+```
+
+```C
+//MEMORY FUNCTIONS ======================================================================
+
+/// Get the current memory usage of this application
+/// @return The size of memory in bytes
+inline double sw_memory_size_b();
+
+/// Gets and prints the memory usage in bytes
+inline void sw_memory_print_b();
+
+/// Get the current memory usage of this application
+/// @return The size of memory in kilobytes
+inline double sw_memory_size_kb();
+
+/// Gets and prints the memory usage in kilobytes
+inline void sw_memory_print_kb();
+
+/// Get the current memory usage of this application
+/// @return The size of memory in megabytes
+inline double sw_memory_size_mb();
+
+/// Gets and prints the memory usage in megabytes
+inline void sw_memory_print_mb();
+
+/// Get the current memory usage of this application
+/// @return The size of memory in gigabytes
+inline double sw_memory_size_gb();
+
+/// Gets and prints the memory usage in gigabytes
+inline void sw_memory_print_gb();
+
+/// Prints the memory usage with the correct formatting in the ideal size.
+/// i.e. doesnt print 1000 bytes as "1000b" but as "1mb"
+inline void sw_memory_print_auto();
 ```

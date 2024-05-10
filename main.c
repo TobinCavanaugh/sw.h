@@ -2,10 +2,6 @@
 
 int main(void)
 {
-    sw_memory_print_auto();
-
-    // return 1;
-
     //Testing elapsed microseconds
     {
         double prev = sw_start_us();
@@ -26,6 +22,20 @@ int main(void)
         double prev = sw_start_s();
         //...
         sw_print_s(prev);
+    }
+
+    {
+        sw_memory_print_auto();
+        sw_memory_print_auto();
+    }
+
+    {
+        double sizegb = sw_memory_size_gb();
+        printf("%.5fgb\n", sizegb);
+    }
+
+    {
+        sw_memory_print_kb();
     }
 
     return 0;
