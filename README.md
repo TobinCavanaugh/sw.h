@@ -44,7 +44,7 @@ int main(void)
 
 ### Functions
   ```C
-//=====================
+//===============================================================
 //MICROSECOND FUNCTIONS
 
 /// Start the microsecond timer, returns the start time
@@ -60,7 +60,7 @@ double sw_stop_us(double prev);
 /// @param prev The start time from `double sw_start_us()`
 void sw_print_us(double prev);
   
-//=====================
+//===============================================================
 //MILLISECOND FUNCTIONS
 
 /// Start the millisecond timer, returns the start time.
@@ -76,7 +76,7 @@ double sw_stop_ms(double prev);
 /// @param prev The start time from `double sw_start_ms()`
 void sw_print_ms(double prev);
 
-//=====================
+//===============================================================
 //SECOND FUNCTIONS
 
 /// Start the second timer, returns the start time.

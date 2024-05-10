@@ -4,7 +4,7 @@ int main(void)
 {
     sw_memory_print_auto();
 
-    return 1;
+    // return 1;
 
     //Testing elapsed microseconds
     {
