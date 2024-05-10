@@ -32,16 +32,34 @@
 //Should the minute functions be enabled? (Uncomment to enable)
 // #define SW_MINUTE_FUNCTIONS
 
+//Should memory functions be enabled (Comment to disable)
+#define SW_MEMORY
+
 //Print format, we use doubles, so make sure to use a %f
 #define PRINT_US_FORMAT "%.0fus\n"
 #define PRINT_MS_FORMAT "%.4fms\n"
 #define PRINT_S_FORMAT "%.4fs\n"
 #define PRINT_MIN_FORMAT "%.2fmins\n"
 
+#define PRINT_B_FORMAT "%.0fb\n"
+#define PRINT_KB_FORMAT "%.2fb\n"
+#define PRINT_MB_FORMAT "%.5fmb\n"
+#define PRINT_GB_FORMAT "%.5fgb\n"
+
 //Include stdio.h if we are enabling print functions
 #ifdef SW_PRINT_FUNCTIONS
 #include <stdio.h>
 #endif //SW_PRINT_FUNCTIONS
+
+
+#ifdef SW_MEMORY
+#ifdef __WIN32
+#include <windows.h>
+#include <psapi.h>
+#endif //__WIN32
+
+//TODO Linux & unix support
+#endif //SW_MEMORY
 
 //=====================
 //MICROSECOND FUNCTIONS
@@ -157,6 +175,84 @@ void sw_print_min(double prev)
 #endif //SW_PRINT_FUNCTIONS
 
 #endif //SW_MINUTE_FUNCTIONS
+
+double sw_memory_size_b()
+{
+#ifdef __WIN32
+    HANDLE hproc = GetCurrentProcess();
+    PROCESS_MEMORY_COUNTERS_EX pmc;
+    if (GetProcessMemoryInfo(hproc, &pmc, sizeof(pmc)))
+    {
+        //In bytes
+        return pmc.WorkingSetSize;
+    }
+    CloseHandle(hproc);
+    return -1;
+
+#elif __linux__
+    #include <sys/resource.h>
+    struct rusage use;
+    getrusage(RUSAGE_SELF, &use);
+    return use.ru_maxrss * 1000.0;
+#endif
+}
+
+void sw_memory_print_b()
+{
+    printf(PRINT_B_FORMAT, sw_memory_size_b());
+}
+
+
+double sw_memory_size_kb()
+{
+    return sw_memory_size_b() / 1000.0;
+}
+
+void sw_memory_print_kb()
+{
+    printf(PRINT_KB_FORMAT, sw_memory_size_kb());
+}
+
+double sw_memory_size_mb()
+{
+    return sw_memory_size_kb() / 1000.0;
+}
+
+void sw_memory_print_mb()
+{
+    printf(PRINT_MB_FORMAT, sw_memory_size_mb());
+}
+
+double sw_memory_size_gb()
+{
+    return sw_memory_size_mb() / 1000.0;
+}
+
+void sw_memory_print_gb()
+{
+    printf(PRINT_GB_FORMAT, sw_memory_size_gb());
+}
+
+void sw_memory_print_auto()
+{
+    double size = sw_memory_size_b();
+    if (size <= 999)
+    {
+        printf(PRINT_B_FORMAT, size);
+    }
+    else if (size <= 999 * 1000)
+    {
+        printf(PRINT_KB_FORMAT, size / 1000.0);
+    }
+    else if (size <= 999 * 1000 * 1000)
+    {
+        printf(PRINT_MB_FORMAT, size / 1000.0 / 1000.0);
+    }
+    else
+    {
+        printf(PRINT_GB_FORMAT, size / 1000.0 / 1000.0 / 1000.0);
+    }
+}
 
 #endif //STOPWATCH_H
 
