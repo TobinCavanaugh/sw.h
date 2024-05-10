@@ -3,8 +3,7 @@
 
 #include <time.h>
 
-//=====================
-//MACRO OPTIONS
+//MACRO OPTIONS ======================================================================
 
 //Should print functions be enabled? (Comment to disable)
 #define SW_PRINT_FUNCTIONS
@@ -45,6 +44,7 @@
 #include <sys/resource.h>
 
 #endif
+
 
 #endif //SW_MEMORY
 
@@ -119,7 +119,6 @@ inline double sw_stop_s(double prev)
     return (sw_start_s() - prev);
 }
 
-
 #ifdef SW_PRINT_FUNCTIONS
 /// Prints the elapsed seconds since prev in seconds
 /// @param prev The start time from `inline double sw_start_s()`
@@ -168,9 +167,10 @@ inline double sw_memory_size_b()
 #ifdef __WIN32
     HANDLE hproc = GetCurrentProcess();
     PROCESS_MEMORY_COUNTERS_EX pmc;
-    if (GetProcessMemoryInfo(hproc, &pmc, sizeof(pmc)))
+    if (GetProcessMemoryInfo(hproc, (PPROCESS_MEMORY_COUNTERS)&pmc, sizeof(pmc)))
     {
-        //In bytes
+        CloseHandle(hproc);
+        //In bytes?
         return pmc.WorkingSetSize;
     }
     CloseHandle(hproc);
@@ -188,7 +188,6 @@ inline void sw_memory_print_b()
 {
     printf(PRINT_B_FORMAT, sw_memory_size_b());
 }
-
 
 /// Get the current memory usage of this application
 /// @return The size of memory in kilobytes
@@ -209,7 +208,6 @@ inline double sw_memory_size_mb()
 {
     return sw_memory_size_kb() / 1000.0;
 }
-
 
 /// Gets and prints the memory usage in megabytes
 inline void sw_memory_print_mb()
