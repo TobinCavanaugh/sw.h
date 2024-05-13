@@ -56,10 +56,10 @@ int main(void)
 0us
 0.000000ms elapsed!
 0.0000s
-2.96550mb
-2.96550mb
-0.00297gb
-2965.50kb
+2.96550MB
+2.96550MB
+0.00297GB
+2965.50KB
 ```
 
 ### Functions
