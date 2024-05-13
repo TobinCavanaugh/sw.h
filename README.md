@@ -37,16 +37,18 @@ int main(void)
         sw_print_s(prev);
     }
 
+    //Print the current memory usage in whatever unit is ideal
     {
-        sw_memory_print_auto();
         sw_memory_print_auto();
     }
 
+    //Print the current memory usage in gb
     {
         double sizegb = sw_memory_size_gb();
         printf("%.5fgb\n", sizegb);
     }
 
+    //Print the current memory usage in kb
     {
         sw_memory_print_kb();
     }
@@ -59,7 +61,6 @@ int main(void)
 0us
 0.000000ms elapsed!
 0.0000s
-2.96550MB
 2.96550MB
 0.00297GB
 2965.50KB
