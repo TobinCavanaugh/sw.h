@@ -5,6 +5,9 @@
 No more `time_t` or `timeval`. They have their place, but 99% of the time you want to time something, they just get in
 they way.
 
+<!---# Keep this updated! #--->
+[Download `sw.h`](https://github.com/TobinCavanaugh/sw/releases/download/0.0.2/sw.h)
+
 ### Example
 
 ```C
