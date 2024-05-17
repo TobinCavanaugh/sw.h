@@ -2,6 +2,12 @@
 
 int main(void)
 {
+    while (1)
+    {
+        void* a = malloc(1024);
+        sw_memory_print_auto();
+    }
+
     //Testing elapsed microseconds
     {
         double prev = sw_start_us();

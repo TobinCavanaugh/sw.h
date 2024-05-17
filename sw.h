@@ -158,6 +158,11 @@ inline void sw_print_min(const double prev)
 
 #endif //SW_MINUTE_FUNCTIONS
 
+#ifdef __WIN32
+HANDLE hproc = NULL;
+PROCESS_MEMORY_COUNTERS_EX pmc;
+#endif
+
 
 #ifdef SW_MEMORY
 /// Get the current memory usage of this application
@@ -165,15 +170,17 @@ inline void sw_print_min(const double prev)
 inline double sw_memory_size_b()
 {
 #ifdef __WIN32
-    const HANDLE hproc = GetCurrentProcess();
-    PROCESS_MEMORY_COUNTERS_EX pmc;
+
+    if (hproc == NULL)
+    {
+        hproc = GetCurrentProcess();
+    }
+
     if (GetProcessMemoryInfo(hproc, (PPROCESS_MEMORY_COUNTERS)&pmc, sizeof(pmc)))
     {
-        CloseHandle(hproc);
         //In bytes?
         return pmc.WorkingSetSize;
     }
-    CloseHandle(hproc);
     return -1;
 
 #elif __linux__
@@ -183,11 +190,13 @@ inline double sw_memory_size_b()
 #endif
 }
 
+#ifdef SW_PRINT_FUNCTIONS
 /// Gets and prints the memory usage in bytes
 inline void sw_memory_print_b()
 {
     printf(PRINT_B_FORMAT, sw_memory_size_b());
 }
+#endif //SW_PRINT_FUNCTIONS
 
 /// Get the current memory usage of this application
 /// @return The size of memory in kilobytes
@@ -196,11 +205,13 @@ inline double sw_memory_size_kb()
     return sw_memory_size_b() / 1000.0;
 }
 
+#ifdef SW_PRINT_FUNCTIONS
 /// Gets and prints the memory usage in kilobytes
 inline void sw_memory_print_kb()
 {
     printf(PRINT_KB_FORMAT, sw_memory_size_kb());
 }
+#endif //SW_PRINT_FUNCTIONS
 
 /// Get the current memory usage of this application
 /// @return The size of memory in megabytes
@@ -209,11 +220,13 @@ inline double sw_memory_size_mb()
     return sw_memory_size_kb() / 1000.0;
 }
 
+#ifdef SW_PRINT_FUNCTIONS
 /// Gets and prints the memory usage in megabytes
 inline void sw_memory_print_mb()
 {
     printf(PRINT_MB_FORMAT, sw_memory_size_mb());
 }
+#endif //SW_PRINT_FUNCTIONS
 
 /// Get the current memory usage of this application
 /// @return The size of memory in gigabytes
@@ -222,12 +235,16 @@ inline double sw_memory_size_gb()
     return sw_memory_size_mb() / 1000.0;
 }
 
+#ifdef SW_PRINT_FUNCTIONS
 /// Gets and prints the memory usage in gigabytes
 inline void sw_memory_print_gb()
 {
     printf(PRINT_GB_FORMAT, sw_memory_size_gb());
 }
+#endif //SW_PRINT_FUNCTIONS
 
+
+#ifdef SW_PRINT_FUNCTIONS
 /// Prints the memory usage with the correct formatting in the ideal size.
 /// i.e. doesnt print 1000 bytes as "1000b" but as "1mb"
 inline void sw_memory_print_auto()
@@ -250,10 +267,11 @@ inline void sw_memory_print_auto()
         printf(PRINT_GB_FORMAT, size / 1000.0 / 1000.0 / 1000.0);
     }
 }
+#endif//SW_PRINT_FUNCTIONS
 
-#endif SW_MEMORY
+#endif//SW_MEMORY
 
-#endif //STOPWATCH_H
+#endif//STOPWATCH_H
 
 //
 // Created by TobinC on 5/9/2024.
