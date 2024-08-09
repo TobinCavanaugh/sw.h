@@ -6,7 +6,7 @@ No more `time_t` or `timeval`. They have their place, but 99% of the time you wa
 they way.
 
 <!---# Keep this updated! #--->
-[Download `sw.h`](https://github.com/TobinCavanaugh/sw.h/releases/download/0.0.4/sw.h)
+[Download `sw.h`](https://github.com/TobinCavanaugh/sw.h/releases/download/0.0.5/sw.h)
 
 ### Example
 
@@ -15,11 +15,11 @@ they way.
 
 int main(void)
 {
-    //Testing elapsed microseconds
+    //Testing elapsed nanoseconds
     {
-        double prev = sw_start_us();
+        double prev = sw_start_ns();
         //...
-        sw_print_us(prev);
+        sw_print_ns(prev);
     }
 
     //Testing elapsed milliseconds
@@ -58,7 +58,7 @@ int main(void)
 ```
 
 ```
-0us
+0ns
 0.000000ms elapsed!
 0.0000s
 2.96550MB
