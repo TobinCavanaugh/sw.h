@@ -15,11 +15,11 @@ they way.
 
 int main(void)
 {
-    //Testing elapsed nanoseconds
+    //Testing elapsed microseconds
     {
-        double prev = sw_start_ns();
+        double prev = sw_start_us();
         //...
-        sw_print_ns(prev);
+        sw_print_us(prev);
     }
 
     //Testing elapsed milliseconds
@@ -58,7 +58,7 @@ int main(void)
 ```
 
 ```
-0ns
+0us
 0.000000ms elapsed!
 0.0000s
 2.96550MB
